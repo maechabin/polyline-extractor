@@ -2,6 +2,8 @@ import * as L from 'leaflet';
 
 export class LLMap {
   llmap!: L.Map;
+  markers: L.Marker[] = [];
+  polyline: L.Polyline;
 
   initMap(elem: any) {
     const token =
@@ -17,7 +19,7 @@ export class LLMap {
           <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>,
           Imagery © <a href="https://www.mapbox.com/">Mapbox</a>
         `,
-        maxZoom: 18,
+        maxZoom: 16,
         id: 'mapbox.streets', // mapbox.streets | mapbox.satellite
         accessToken: 'your.mapbox.access.token',
       },
@@ -33,7 +35,7 @@ export class LLMap {
           <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>,
           Imagery © <a href="https://www.mapbox.com/">Mapbox</a>
         `,
-        maxZoom: 18,
+        maxZoom: 16,
         id: 'mapbox.satellite', // mapbox.streets | mapbox.satellite
         accessToken: 'your.mapbox.access.token',
       },
@@ -53,5 +55,46 @@ export class LLMap {
         { position: 'bottomright' },
       )
       .addTo(this.llmap);
+  }
+
+  putMarker(latlng: [number, number]) {
+    const [lat, lng] = latlng;
+    /** Icon */
+    const markerHtmlStyles1 = `
+        position: absolute;
+        left: -7px;
+        top: -7px;
+        border-radius: 50%;
+        background-color: #FF0000;
+        width: 14px;
+        height: 14px;
+      `;
+    const icon = L.divIcon({
+      className: 'marker-icon',
+      iconAnchor: [0, 0],
+      html: `
+        <span style="${markerHtmlStyles1}" />
+      `,
+    });
+
+    const marker = L.marker([lat, lng], {
+      icon,
+      draggable: true,
+    }).addTo(this.llmap);
+
+    this.markers = [...this.markers, marker];
+  }
+
+  putPolyline(latlngs: [number, number][]) {
+    if (!this.polyline) {
+      this.polyline = L.polyline([latlngs],
+        {
+          color: '#FF0000',
+          weight: 8,
+          opacity: 0.6,
+        }).addTo(this.llmap);
+    }
+
+    this.polyline.setLatLngs([latlngs]);
   }
 }
