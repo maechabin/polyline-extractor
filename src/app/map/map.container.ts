@@ -38,7 +38,15 @@ export class MapContainerComponent implements OnInit {
       this.latlngs = [...this.latlngs, latlng];
 
       console.log(this.latlngs);
-      this.map.putMarker(latlng);
+      const [marker, index] = this.map.putMarker(latlng);
+      this.map.putPolyline(this.latlngs);
+      this.handleMarkerDrop(marker, index);
+    });
+  }
+  handleMarkerDrop(marker, index) {
+    marker.on('dragend', (event: any) => {
+      const newLatLng = marker.getLatLng();
+      this.latlngs.splice(index, 1, newLatLng);
       this.map.putPolyline(this.latlngs);
     });
   }

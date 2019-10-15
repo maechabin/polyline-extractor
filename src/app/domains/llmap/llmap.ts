@@ -83,6 +83,7 @@ export class LLMap {
     }).addTo(this.llmap);
 
     this.markers = [...this.markers, marker];
+    return [marker, this.markers.length - 1];
   }
 
   putPolyline(latlngs: [number, number][]) {
