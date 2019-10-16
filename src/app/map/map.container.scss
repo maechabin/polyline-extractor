@@ -1,0 +1,14 @@
+.content {
+  display: flex;
+}
+
+.map {
+  width: calc(100% - 320px);
+  height: 100vh;
+}
+
+.console {
+  width: 320px;
+  height: 100%;
+  overflow: scroll;
+}

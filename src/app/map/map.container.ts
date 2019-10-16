@@ -4,16 +4,16 @@ import { LLMap } from '../domains/llmap/llmap';
 @Component({
   selector: 'app-map',
   template: `
-    <div class="map"></div>
+    <div class="content">
+      <div class="map"></div>
+      <app-console
+        class="console"
+        [latlngs]="latlngs"
+        (resetButtonClick)="handleResetButtonClick()"
+      ></app-console>
+    </div>
   `,
-  styles: [
-    `
-      .map {
-        width: 100%;
-        height: 100vh;
-      }
-    `,
-  ],
+  styleUrls: ['./map.container.scss'],
 })
 export class MapContainerComponent implements OnInit {
   private el: HTMLElement;
@@ -45,9 +45,16 @@ export class MapContainerComponent implements OnInit {
   }
   handleMarkerDrop(marker, index) {
     marker.on('dragend', (event: any) => {
-      const newLatLng = marker.getLatLng();
-      this.latlngs.splice(index, 1, newLatLng);
+      const { lat, lng } = marker.getLatLng();
+      this.latlngs.splice(index, 1, [lat, lng]);
       this.map.putPolyline(this.latlngs);
     });
+  }
+
+  handleResetButtonClick() {
+    console.log('aaaa');
+    this.latlngs = [];
+    this.map.putPolyline(this.latlngs);
+    this.map.clearMarker();
   }
 }
