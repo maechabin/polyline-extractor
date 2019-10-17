@@ -86,6 +86,12 @@ export class LLMap {
     return [marker, this.markers.length - 1];
   }
 
+
+  clearMarker(index) {
+    this.llmap.removeLayer(this.markers[index]);
+    this.markers.pop();
+  }
+
   clearAllMarker() {
     this.markers.forEach((marker) => {
       this.llmap.removeLayer(marker);

@@ -9,6 +9,7 @@ import { LLMap } from '../domains/llmap/llmap';
       <app-console
         class="console"
         [latlngs]="latlngs"
+        (undoButtonClick)="handleUndoButtonClick()"
         (resetButtonClick)="handleResetButtonClick()"
       ></app-console>
     </div>
@@ -49,6 +50,13 @@ export class MapContainerComponent implements OnInit {
       this.latlngs.splice(index, 1, [lat, lng]);
       this.map.putPolyline(this.latlngs);
     });
+  }
+
+  handleUndoButtonClick() {
+    this.latlngs.pop();
+    this.map.putPolyline(this.latlngs);
+    const index = this.latlngs.length;
+    this.map.clearMarker(index);
   }
 
   handleResetButtonClick() {

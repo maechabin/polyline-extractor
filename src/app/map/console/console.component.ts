@@ -7,10 +7,15 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class ConsoleComponent {
   @Input() latlngs: [number, number][];
+  @Output() undoButtonClick = new EventEmitter<never>();
   @Output() resetButtonClick = new EventEmitter<never>();
 
   get polyline() {
     return JSON.stringify(this.latlngs);
+  }
+
+  handleUndoButtonClick() {
+    this.undoButtonClick.emit();
   }
 
   handleResetButtonClick() {
