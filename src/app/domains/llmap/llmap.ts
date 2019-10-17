@@ -86,10 +86,11 @@ export class LLMap {
     return [marker, this.markers.length - 1];
   }
 
-  clearMarker() {
+  clearAllMarker() {
     this.markers.forEach((marker) => {
       this.llmap.removeLayer(marker);
     });
+    this.markers = [];
   }
 
   putPolyline(latlngs: [number, number][]) {
@@ -103,5 +104,7 @@ export class LLMap {
     }
 
     this.polyline.setLatLngs([latlngs]);
+  clearPolyline() {
+    this.polyline = null;
   }
 }

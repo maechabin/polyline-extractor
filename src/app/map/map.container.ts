@@ -52,9 +52,10 @@ export class MapContainerComponent implements OnInit {
   }
 
   handleResetButtonClick() {
-    console.log('aaaa');
     this.latlngs = [];
     this.map.putPolyline(this.latlngs);
-    this.map.clearMarker();
+    this.map.clearPolyline();
+    this.map.clearAllMarker();
+  }
   }
 }
