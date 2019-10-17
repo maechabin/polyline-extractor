@@ -57,16 +57,17 @@ export class LLMap {
       .addTo(this.llmap);
   }
 
-  putMarker(latlng: [number, number]) {
+  putMarker(latlng: [number, number], index?: number) {
     const [lat, lng] = latlng;
+    const color = this.markers.length === 0 ? '#666' : '#FF0000';
     /** Icon */
     const markerHtmlStyles1 = `
         position: absolute;
         left: -7px;
         top: -7px;
-        background-color: #FF0000;
-        width: 14px;
-        height: 14px;
+        border: 3px solid ${color};
+        width: 8px;
+        height: 8px;
       `;
     const icon = L.divIcon({
       className: 'marker-icon',
@@ -81,8 +82,12 @@ export class LLMap {
       draggable: true,
     }).addTo(this.llmap);
 
-    this.markers = [...this.markers, marker];
-    return [marker, this.markers.length - 1];
+    if (index) {
+      this.markers.splice(index, 0, marker);
+    } else {
+      this.markers = [...this.markers, marker];
+    }
+    return marker;
   }
 
 
@@ -103,12 +108,14 @@ export class LLMap {
       this.polyline = L.polyline([latlngs],
         {
           color: '#FF0000',
-          weight: 8,
-          opacity: 0.6,
+          weight: 6,
+          opacity: 0.5,
         }).addTo(this.llmap);
     }
 
     this.polyline.setLatLngs([latlngs]);
+  }
+
   clearPolyline() {
     this.polyline = null;
   }
