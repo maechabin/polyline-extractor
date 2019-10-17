@@ -35,15 +35,14 @@ export class MapContainerComponent implements OnInit {
   handleMapClick() {
     this.map.llmap.on('click', (event: L.LeafletMouseEvent) => {
       const latlng: [number, number] = [event.latlng.lat, event.latlng.lng]
-      console.log(event.layerPoint);
       this.latlngs = [...this.latlngs, latlng];
 
-      console.log(this.latlngs);
       const [marker, index] = this.map.putMarker(latlng);
       this.map.putPolyline(this.latlngs);
       this.handleMarkerDrop(marker, index);
     });
   }
+
   handleMarkerDrop(marker, index) {
     marker.on('dragend', (event: any) => {
       const { lat, lng } = marker.getLatLng();

@@ -64,7 +64,6 @@ export class LLMap {
         position: absolute;
         left: -7px;
         top: -7px;
-        border-radius: 50%;
         background-color: #FF0000;
         width: 14px;
         height: 14px;

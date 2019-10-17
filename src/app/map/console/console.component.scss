@@ -9,3 +9,13 @@
   color: #fff;
   background-color: #222;
 }
+
+.button {
+  width: calc(100% / 3 - 8px);
+  height: 40px;
+  cursor: pointer;
+  border: none;
+  background-color: #b00020;
+  color: #fff;
+  margin: 0 4px;
+}
