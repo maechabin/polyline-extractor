@@ -72,6 +72,20 @@ export class MapContainerComponent implements OnInit {
       this.latlngs.splice(index, 1, [lat, lng]);
       this.map.putPolyline(this.latlngs);
     });
+
+    marker.on('contextmenu', (event: any) => {
+      const index = this.map.markers.findIndex((a) => {
+        return a.getLatLng().lat === event.latlng.lat && a.getLatLng().lng === event.latlng.lng;
+      });
+
+      if (index <= 0) {
+        return;
+      }
+
+      this.latlngs.splice(index, 1);
+      this.map.putPolyline(this.latlngs);
+      this.map.clearMarker(index);
+    })
   }
 
   handleUndoButtonClick() {
