@@ -58,8 +58,9 @@ export class MapContainerComponent implements OnInit {
       const midpoint: [number, number] = [
         (this.latlngs[index][0] + this.latlngs[index - 1][0]) / 2,
         (this.latlngs[index][1] + this.latlngs[index - 1][1]) / 2,
-      ]
-      this.latlngs.splice(index, 0, midpoint)
+      ];
+      this.latlngs.splice(index, 0, midpoint);
+      this.latlngs = [].concat(this.latlngs);
       this.map.putPolyline(this.latlngs);
       const m = this.map.putMarker(midpoint, index);
       this.handleMarkerEvent(m);
@@ -70,6 +71,7 @@ export class MapContainerComponent implements OnInit {
 
       const { lat, lng } = marker.getLatLng();
       this.latlngs.splice(index, 1, [lat, lng]);
+      this.latlngs = [].concat(this.latlngs);
       this.map.putPolyline(this.latlngs);
     });
 
@@ -81,6 +83,7 @@ export class MapContainerComponent implements OnInit {
       }
 
       this.latlngs.splice(index, 1);
+      this.latlngs = [].concat(this.latlngs);
       this.map.putPolyline(this.latlngs);
       this.map.clearMarker(index);
     })
