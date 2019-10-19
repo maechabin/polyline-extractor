@@ -33,10 +33,10 @@ export class MapContainerComponent implements OnInit {
     const mapElem = this.el.querySelector('.map') as HTMLElement;
     this.map.initMap(mapElem);
 
-    this.handleMapClick();
+    this.handleMapEvent();
   }
 
-  handleMapClick() {
+  handleMapEvent() {
     this.map.llmap.on('click', (event: L.LeafletMouseEvent) => {
       const latlng: [number, number] = [event.latlng.lat, event.latlng.lng]
       this.latlngs = [...this.latlngs, latlng];
@@ -49,9 +49,7 @@ export class MapContainerComponent implements OnInit {
 
   handleMarkerEvent(marker: any) {
     marker.on('click', (event: any) => {
-      const index = this.map.markers.findIndex((a) => {
-        return a.getLatLng().lat === event.latlng.lat && a.getLatLng().lng === event.latlng.lng;
-      });
+      const index = this.getMarkerIndex(event.latlng);
 
       if (index <= 0) {
         return;
@@ -63,14 +61,12 @@ export class MapContainerComponent implements OnInit {
       ]
       this.latlngs.splice(index, 0, midpoint)
       this.map.putPolyline(this.latlngs);
-      const marker = this.map.putMarker(midpoint, index);
-      this.handleMarkerEvent(marker);
+      const m = this.map.putMarker(midpoint, index);
+      this.handleMarkerEvent(m);
     });
 
     marker.on('drag', (event: any) => {
-      const index = this.map.markers.findIndex((marker) => {
-        return marker.getLatLng().lat === event.latlng.lat && marker.getLatLng().lng === event.latlng.lng;
-      });
+      const index = this.getMarkerIndex(event.latlng);
 
       const { lat, lng } = marker.getLatLng();
       this.latlngs.splice(index, 1, [lat, lng]);
@@ -78,9 +74,7 @@ export class MapContainerComponent implements OnInit {
     });
 
     marker.on('contextmenu', (event: any) => {
-      const index = this.map.markers.findIndex((a) => {
-        return a.getLatLng().lat === event.latlng.lat && a.getLatLng().lng === event.latlng.lng;
-      });
+      const index = this.getMarkerIndex(event.latlng);
 
       if (index <= 0) {
         return;
@@ -92,6 +86,12 @@ export class MapContainerComponent implements OnInit {
     })
   }
 
+  private getMarkerIndex(latlng: { lat: number; lng: number; }) {
+    return this.map.markers.findIndex((marker) => {
+      const markerLatlng = marker.getLatLng();
+      return markerLatlng.lat === latlng.lat && markerLatlng.lng === latlng.lng;
+    });
+  }
 
   handleTextInput(latlngs: string) {
     try {
@@ -106,10 +106,13 @@ export class MapContainerComponent implements OnInit {
   }
 
   handleUndoButtonClick() {
-    this.latlngs.pop();
-    this.map.putPolyline(this.latlngs);
-    const index = this.latlngs.length;
-    this.map.clearMarker(index);
+    if (this.latlngs.length > 0) {
+      this.latlngs.pop();
+      this.latlngs = [].concat(this.latlngs);
+      this.map.putPolyline(this.latlngs);
+      const index = this.latlngs.length;
+      this.map.clearMarker(index);
+    }
   }
 
   handleResetButtonClick() {
