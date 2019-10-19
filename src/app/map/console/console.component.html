@@ -1,3 +1,5 @@
-<textarea class="textarea">{{ polyline }}</textarea>
+<form [formGroup]="textForm">
+  <textarea formControlName="latlngs" class="textarea" (input)="handleTextInput()"></textarea>
+</form>
 <button (click)="handleUndoButtonClick()" class="button">UNDO</button>
 <button (click)="handleResetButtonClick()" class="button">RESET</button>

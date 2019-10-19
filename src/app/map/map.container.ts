@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
+
 import { LLMap } from '../domains/llmap/llmap';
 
 @Component({
@@ -9,6 +10,7 @@ import { LLMap } from '../domains/llmap/llmap';
       <app-console
         class="console"
         [latlngs]="latlngs"
+        (textInput)="handleTextInput($event)"
         (undoButtonClick)="handleUndoButtonClick()"
         (resetButtonClick)="handleResetButtonClick()"
       ></app-console>
@@ -22,7 +24,9 @@ export class MapContainerComponent implements OnInit {
 
   latlngs: [number, number][] = [];
 
-  constructor(private elementRef: ElementRef) { }
+  constructor(
+    private elementRef: ElementRef,
+  ) { }
 
   ngOnInit() {
     this.el = this.elementRef.nativeElement;
@@ -86,6 +90,19 @@ export class MapContainerComponent implements OnInit {
       this.map.putPolyline(this.latlngs);
       this.map.clearMarker(index);
     })
+  }
+
+
+  handleTextInput(latlngs: string) {
+    try {
+      this.latlngs = JSON.parse(latlngs);
+      this.map.putPolyline(this.latlngs);
+      this.map.clearAllMarker();
+      this.latlngs.forEach((latlng: [number, number]) => {
+        const marker = this.map.putMarker(latlng);
+        this.handleMarkerEvent(marker);
+      });
+    } catch { }
   }
 
   handleUndoButtonClick() {
