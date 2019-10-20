@@ -119,4 +119,8 @@ export class LLMap {
   clearPolyline() {
     this.polyline = null;
   }
+
+  fitBounds(latlngs: [number, number][]) {
+    this.llmap.fitBounds(latlngs);
+  }
 }

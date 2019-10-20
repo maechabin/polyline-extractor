@@ -13,6 +13,7 @@ import { LLMap } from '../domains/llmap/llmap';
         (textInput)="handleTextInput($event)"
         (undoButtonClick)="handleUndoButtonClick()"
         (resetButtonClick)="handleResetButtonClick()"
+        (fitBoundsButtonClick)="handleFitBoundsButtonClick()"
       ></app-console>
     </div>
   `,
@@ -124,5 +125,10 @@ export class MapContainerComponent implements OnInit {
     this.map.clearPolyline();
     this.map.clearAllMarker();
   }
+
+  handleFitBoundsButtonClick() {
+    if (this.latlngs.length > 0) {
+      this.map.fitBounds(this.latlngs);
+    }
   }
 }

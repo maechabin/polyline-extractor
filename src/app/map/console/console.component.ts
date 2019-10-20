@@ -12,6 +12,7 @@ export class ConsoleComponent implements OnInit, OnChanges {
   @Output() undoButtonClick = new EventEmitter<never>();
   @Output() resetButtonClick = new EventEmitter<never>();
   @Output() reverseButtonClick = new EventEmitter<never>();
+  @Output() fitBoundsButtonClick = new EventEmitter<never>();
 
   textForm: FormGroup;
 
@@ -52,5 +53,9 @@ export class ConsoleComponent implements OnInit, OnChanges {
 
   handleResetButtonClick() {
     this.resetButtonClick.emit();
+  }
+
+  handleFitBoundsButtonClick() {
+    this.fitBoundsButtonClick.emit();
   }
 }
