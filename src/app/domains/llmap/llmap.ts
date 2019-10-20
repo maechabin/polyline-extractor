@@ -42,7 +42,7 @@ export class LLMap {
     );
 
     this.llmap = L.map(elem)
-      .setView([35.69432984468491, 139.74267643565133], 12)
+      .setView([35.69432984468491, 139.74267643565133], 15)
       .addLayer(streetsLayer);
 
     L.control
