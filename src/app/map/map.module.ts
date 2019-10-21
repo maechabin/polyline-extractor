@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { CustomMaterialModule } from '../../core/custom-material.module';
+import { CustomMaterialModule } from '../core/custom-material.module';
 import { MapContainerComponent } from './map.container';
 import { ConsoleComponent } from './console/console.component';
 
