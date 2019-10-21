@@ -1,6 +1,8 @@
 <form [formGroup]="textForm">
   <textarea formControlName="latlngs" class="textarea" (input)="handleTextInput()"></textarea>
 </form>
-<button (click)="handleUndoButtonClick()" class="button">UNDO</button>
-<button (click)="handleResetButtonClick()" class="button">RESET</button>
-<button (click)="handleFitBoundsButtonClick()" class="button">FIT BOUNDS</button>
+<button mat-raised-button color="primary" class="button" (click)="handleUndoButtonClick()">UNDO</button>
+<!-- <button  mat-raised-button color="primary" class="button" (click)="handleReverseButtonClick()">REVERSE</button> -->
+<button mat-raised-button color="primary" class="button" (click)="handleResetButtonClick()">RESET</button>
+
+<button mat-raised-button color="primary" class="button" (click)="handleFitBoundsButtonClick()">FIT BOUNDS</button>
