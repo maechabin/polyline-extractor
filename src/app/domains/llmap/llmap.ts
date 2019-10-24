@@ -91,7 +91,7 @@ export class LLMap {
   }
 
 
-  clearMarker(index) {
+  clearMarker(index: number) {
     this.llmap.removeLayer(this.markers[index]);
     this.markers.splice(index, 1);
   }

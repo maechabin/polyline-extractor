@@ -1,11 +1,23 @@
 <form [formGroup]="textForm">
   <textarea formControlName="latlngs" class="textarea" (input)="handleTextInput()"></textarea>
-</form>
-<button mat-raised-button color="primary" class="button" (click)="handleUndoButtonClick()">UNDO</button>
-<!-- <button  mat-raised-button color="primary" class="button" (click)="handleReverseButtonClick()">REVERSE</button> -->
-<button mat-raised-button color="primary" class="button" (click)="handleResetButtonClick()">RESET</button>
 
-<button mat-raised-button color="primary" class="button" (click)="handleFitBoundsButtonClick()">FIT BOUNDS</button>    <p>
+  <div class="console">
+    <p>
       <mat-checkbox formControlName="isFilled" color="primary" (change)="handleIsFilledChange()">FILL POLYLINE
       </mat-checkbox>
     </p>
+
+    <button mat-raised-button color="primary" class="button" (click)="handleFitBoundsButtonClick()">FIT BOUNDS</button>
+
+    <button mat-raised-button color="primary" class="button" (click)="handleUndoButtonClick()">UNDO</button>
+    <!-- <button  mat-raised-button color="primary" class="button" (click)="handleReverseButtonClick()">REVERSE</button> -->
+    <button mat-raised-button color="primary" class="button" (click)="handleResetButtonClick()">RESET</button>
+  </div>
+
+  <ul class="explain">
+    <li>マップ上をクリックでポイント追加</li>
+    <li>ポイントをクリックで一つ前にポイントを追加</li>
+    <li>ポイントを二本指でクリック（右クリック）で削除</li>
+    <li>ドラッグ＆ドロップでポイントを移動</li>
+  </ul>
+</form>

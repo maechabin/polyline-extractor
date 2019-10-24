@@ -1,6 +1,6 @@
 .textarea {
   width: 100%;
-  height: 80vh;
+  height: 50vh;
   font-size: 12px;
   font-family: monospace;
   border: none;
@@ -10,8 +10,18 @@
   background-color: #222;
 }
 
+.console {
+  box-sizing: border-box;
+  padding: 0 8px;
+}
+
 .button {
-  width: calc(100% / 3 - 8px);
-  margin: 0 4px;
+  width: calc(100% / 3 - 4px);
+  margin-right: 4px;
+  font-size: 12px;
+}
+
+.explain {
+  padding: 0 0 0 2em;
   font-size: 12px;
 }
