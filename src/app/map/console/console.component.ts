@@ -50,7 +50,6 @@ export class ConsoleComponent implements OnInit, OnChanges {
   }
 
   handleTextInput() {
-    console.log(this.textForm.get('latlngs').value);
     this.textInput.emit(this.textForm.get('latlngs').value);
   }
 

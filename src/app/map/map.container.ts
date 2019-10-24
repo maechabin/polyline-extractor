@@ -42,7 +42,7 @@ export class MapContainerComponent implements OnInit {
 
   handleMapEvent() {
     this.map.llmap.on('click', (event: L.LeafletMouseEvent) => {
-      const latlng: [number, number] = [event.latlng.lat, event.latlng.lng]
+      const latlng: [number, number] = [event.latlng.lat, event.latlng.lng];
       this.latlngs = [...this.latlngs, latlng];
 
       const marker = this.map.putMarker(latlng);
