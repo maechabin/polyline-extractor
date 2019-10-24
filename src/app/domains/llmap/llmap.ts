@@ -59,7 +59,7 @@ export class LLMap {
 
   putMarker(latlng: [number, number], index?: number) {
     const [lat, lng] = latlng;
-    const color = this.markers.length === 0 ? '#666' : '#FF0000';
+    const color = this.markers.length === 0 ? '#3f51b5' : '#f50057';
     /** Icon */
     const markerHtmlStyles1 = `
         position: absolute;
@@ -107,10 +107,11 @@ export class LLMap {
     if (!this.polyline) {
       this.polyline = L.polyline([latlngs],
         {
-          color: '#FF0000',
+          color: '#f50057',
           weight: 6,
           opacity: 0.5,
           fill: isFilled,
+          fillColor: '#f50057',
         }).addTo(this.llmap);
     }
 
