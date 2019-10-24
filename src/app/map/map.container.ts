@@ -13,6 +13,7 @@ import { LLMap } from '../domains/llmap/llmap';
         (textInput)="handleTextInput($event)"
         (isFilledChange)="handleIsFilledChange($event)"
         (undoButtonClick)="handleUndoButtonClick()"
+        (connectButtonClick)="handleConnectButtonClick()"
         (resetButtonClick)="handleResetButtonClick()"
         (fitBoundsButtonClick)="handleFitBoundsButtonClick()"
       ></app-console>
@@ -114,6 +115,16 @@ export class MapContainerComponent implements OnInit {
   handleIsFilledChange(isFilled: boolean) {
     this.isFilled = isFilled;
     this.map.setPolylineStyle(isFilled);
+  }
+
+  handleConnectButtonClick() {
+    const latlng = this.latlngs[0];
+    this.latlngs = [...this.latlngs, latlng];
+    this.latlngs = [].concat(this.latlngs);
+    this.map.putPolyline(this.latlngs, this.isFilled);
+    const index = this.latlngs.length;
+    const marker = this.map.putMarker(latlng, index);
+    this.handleMarkerEvent(marker);
   }
 
   handleUndoButtonClick() {

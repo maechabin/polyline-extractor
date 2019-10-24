@@ -10,6 +10,7 @@ export class ConsoleComponent implements OnInit, OnChanges {
   @Input() latlngs: [number, number][];
   @Output() textInput = new EventEmitter<string>();
   @Output() isFilledChange = new EventEmitter<boolean>();
+  @Output() connectButtonClick = new EventEmitter<never>();
   @Output() undoButtonClick = new EventEmitter<never>();
   @Output() resetButtonClick = new EventEmitter<never>();
   @Output() reverseButtonClick = new EventEmitter<never>();
@@ -42,6 +43,10 @@ export class ConsoleComponent implements OnInit, OnChanges {
       latlngs: [this.polyline],
       isFilled: [false],
     });
+  }
+
+  handleConnectButtonClick() {
+    this.connectButtonClick.emit();
   }
 
   handleTextInput() {
