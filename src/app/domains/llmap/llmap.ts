@@ -103,17 +103,26 @@ export class LLMap {
     this.markers = [];
   }
 
-  putPolyline(latlngs: [number, number][]) {
+  putPolyline(latlngs: [number, number][], isFilled = false) {
     if (!this.polyline) {
       this.polyline = L.polyline([latlngs],
         {
           color: '#FF0000',
           weight: 6,
           opacity: 0.5,
+          fill: isFilled,
         }).addTo(this.llmap);
     }
 
     this.polyline.setLatLngs([latlngs]);
+  }
+
+  setPolylineStyle(isFilled: boolean) {
+    if (this.polyline) {
+      this.polyline.setStyle({
+        fill: isFilled,
+      });
+    }
   }
 
   clearPolyline() {

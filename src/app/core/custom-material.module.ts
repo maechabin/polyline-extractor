@@ -3,6 +3,7 @@ import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatButtonModule,
   MatDialogModule,
+  MatCheckboxModule,
   MatChipsModule,
   MatExpansionModule,
   MatFormFieldModule,
@@ -27,6 +28,7 @@ import {
 @NgModule({
   imports: [
     MatButtonModule,
+    MatCheckboxModule,
     MatChipsModule,
     MatDialogModule,
     MatExpansionModule,
@@ -46,6 +48,7 @@ import {
   entryComponents: [MatSpinner],
   exports: [
     MatButtonModule,
+    MatCheckboxModule,
     MatChipsModule,
     MatDialogModule,
     MatExpansionModule,

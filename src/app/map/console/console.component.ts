@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class ConsoleComponent implements OnInit, OnChanges {
   @Input() latlngs: [number, number][];
   @Output() textInput = new EventEmitter<string>();
+  @Output() isFilledChange = new EventEmitter<boolean>();
   @Output() undoButtonClick = new EventEmitter<never>();
   @Output() resetButtonClick = new EventEmitter<never>();
   @Output() reverseButtonClick = new EventEmitter<never>();
@@ -39,12 +40,17 @@ export class ConsoleComponent implements OnInit, OnChanges {
   createForm(): void {
     this.textForm = this.formBuilder.group({
       latlngs: [this.polyline],
+      isFilled: [false],
     });
   }
 
   handleTextInput() {
     console.log(this.textForm.get('latlngs').value);
     this.textInput.emit(this.textForm.get('latlngs').value);
+  }
+
+  handleIsFilledChange() {
+    this.isFilledChange.emit(this.textForm.get('isFilled').value);
   }
 
   handleUndoButtonClick() {

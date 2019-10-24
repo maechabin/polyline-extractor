@@ -11,6 +11,7 @@ import { LLMap } from '../domains/llmap/llmap';
         class="console"
         [latlngs]="latlngs"
         (textInput)="handleTextInput($event)"
+        (isFilledChange)="handleIsFilledChange($event)"
         (undoButtonClick)="handleUndoButtonClick()"
         (resetButtonClick)="handleResetButtonClick()"
         (fitBoundsButtonClick)="handleFitBoundsButtonClick()"
@@ -22,6 +23,7 @@ import { LLMap } from '../domains/llmap/llmap';
 export class MapContainerComponent implements OnInit {
   private el: HTMLElement;
   readonly map = new LLMap();
+  isFilled = false;
 
   latlngs: [number, number][] = [];
 
@@ -43,7 +45,7 @@ export class MapContainerComponent implements OnInit {
       this.latlngs = [...this.latlngs, latlng];
 
       const marker = this.map.putMarker(latlng);
-      this.map.putPolyline(this.latlngs);
+      this.map.putPolyline(this.latlngs, this.isFilled);
       this.handleMarkerEvent(marker);
     });
   }
@@ -62,7 +64,7 @@ export class MapContainerComponent implements OnInit {
       ];
       this.latlngs.splice(index, 0, midpoint);
       this.latlngs = [].concat(this.latlngs);
-      this.map.putPolyline(this.latlngs);
+      this.map.putPolyline(this.latlngs, this.isFilled);
       const m = this.map.putMarker(midpoint, index);
       this.handleMarkerEvent(m);
     });
@@ -73,7 +75,7 @@ export class MapContainerComponent implements OnInit {
       const { lat, lng } = marker.getLatLng();
       this.latlngs.splice(index, 1, [lat, lng]);
       this.latlngs = [].concat(this.latlngs);
-      this.map.putPolyline(this.latlngs);
+      this.map.putPolyline(this.latlngs, this.isFilled);
     });
 
     marker.on('contextmenu', (event: any) => {
@@ -85,9 +87,9 @@ export class MapContainerComponent implements OnInit {
 
       this.latlngs.splice(index, 1);
       this.latlngs = [].concat(this.latlngs);
-      this.map.putPolyline(this.latlngs);
+      this.map.putPolyline(this.latlngs, this.isFilled);
       this.map.clearMarker(index);
-    })
+    });
   }
 
   private getMarkerIndex(latlng: { lat: number; lng: number; }) {
@@ -100,7 +102,7 @@ export class MapContainerComponent implements OnInit {
   handleTextInput(latlngs: string) {
     try {
       this.latlngs = JSON.parse(latlngs);
-      this.map.putPolyline(this.latlngs);
+      this.map.putPolyline(this.latlngs, this.isFilled);
       this.map.clearAllMarker();
       this.latlngs.forEach((latlng: [number, number]) => {
         const marker = this.map.putMarker(latlng);
@@ -109,11 +111,16 @@ export class MapContainerComponent implements OnInit {
     } catch { }
   }
 
+  handleIsFilledChange(isFilled: boolean) {
+    this.isFilled = isFilled;
+    this.map.setPolylineStyle(isFilled);
+  }
+
   handleUndoButtonClick() {
     if (this.latlngs.length > 0) {
       this.latlngs.pop();
       this.latlngs = [].concat(this.latlngs);
-      this.map.putPolyline(this.latlngs);
+      this.map.putPolyline(this.latlngs, this.isFilled);
       const index = this.latlngs.length;
       this.map.clearMarker(index);
     }
@@ -121,7 +128,7 @@ export class MapContainerComponent implements OnInit {
 
   handleResetButtonClick() {
     this.latlngs = [];
-    this.map.putPolyline(this.latlngs);
+    this.map.putPolyline(this.latlngs, this.isFilled);
     this.map.clearPolyline();
     this.map.clearAllMarker();
   }
