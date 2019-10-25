@@ -1,7 +1,7 @@
-<form [formGroup]="textForm">
+<form [formGroup]="textForm" class="console">
   <textarea formControlName="latlngs" class="textarea" (input)="handleTextInput()"></textarea>
 
-  <div class="console">
+  <div class="console-area">
     <p>
       <mat-checkbox formControlName="isFilled" color="primary" (change)="handleIsFilledChange()">FILL POLYLINE
       </mat-checkbox>
@@ -19,12 +19,12 @@
       <!-- <button  mat-raised-button color="primary" class="button" (click)="handleReverseButtonClick()">REVERSE</button> -->
       <button mat-raised-button color="primary" class="button" (click)="handleResetButtonClick()">RESET</button>
     </p>
-  </div>
 
-  <ul class="explain">
-    <li>マップ上をクリックでポイント追加</li>
-    <li>ポイントをクリックで一つ前にポイントを追加</li>
-    <li>ポイントを二本指でクリック（右クリック）で削除</li>
-    <li>ドラッグ＆ドロップでポイントを移動</li>
-  </ul>
+    <ul class="explain">
+      <li>マップ上をクリックでポイント追加</li>
+      <li>ポイントをクリックで一つ前にポイントを追加</li>
+      <li>ポイントを二本指でクリック（右クリック）で削除</li>
+      <li>ドラッグ＆ドロップでポイントを移動</li>
+    </ul>
+  </div>
 </form>
