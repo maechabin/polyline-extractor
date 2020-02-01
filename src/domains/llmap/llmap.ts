@@ -1,60 +1,53 @@
 import * as L from 'leaflet';
 
+import * as Constants from './constants';
+
 export class LLMap {
+  /** Layers */
+  private readonly streetsLayer = this.createTileLayer(Constants.LayerId.MapboxStreets);
+  private readonly satelliteLayer = this.createTileLayer(Constants.LayerId.MapboxSatellite);
+
   llmap!: L.Map;
   markers: L.Marker[] = [];
   polyline: L.Polyline;
 
   initMap(elem: any) {
-    const token =
-      'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
-    /** Layer */
-    const streetsLayer = L.tileLayer(
-      `
-    https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=${token}
-    `,
-      {
-        attribution: `
-          Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors,
-          <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>,
-          Imagery © <a href="https://www.mapbox.com/">Mapbox</a>
-        `,
-        maxZoom: 16,
-        id: 'mapbox.streets', // mapbox.streets | mapbox.satellite
-        accessToken: 'your.mapbox.access.token',
-      },
-    );
-
-    const satelliteLayer = L.tileLayer(
-      `
-    https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=${token}
-    `,
-      {
-        attribution: `
-          Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors,
-          <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>,
-          Imagery © <a href="https://www.mapbox.com/">Mapbox</a>
-        `,
-        maxZoom: 16,
-        id: 'mapbox.satellite', // mapbox.streets | mapbox.satellite
-        accessToken: 'your.mapbox.access.token',
-      },
-    );
-
     this.llmap = L.map(elem)
-      .setView([35.69432984468491, 139.74267643565133], 15)
-      .addLayer(streetsLayer);
+      .setView(Constants.DefaultCenteringPosition as L.LatLngExpression, Constants.DefaultZoomSize)
+      .addLayer(this.streetsLayer);
 
+    this.addLayerToControl();
+  }
+
+  private addLayerToControl(): void {
     L.control
       .layers(
         {
-          street: streetsLayer,
-          satellite: satelliteLayer,
+          street: this.streetsLayer,
+          satellite: this.satelliteLayer,
         },
         {},
         { position: 'bottomright' },
       )
       .addTo(this.llmap);
+  }
+
+  private createTileLayer(layerId: Constants.LayerId): L.Layer {
+    let layerUrl: string;
+    switch (layerId) {
+      case Constants.LayerId.MapboxStreets:
+        layerUrl = Constants.StreetLayer;
+        break;
+      case Constants.LayerId.MapboxSatellite:
+        layerUrl = Constants.SatelliteLayer;
+        break;
+    }
+    return L.tileLayer(layerUrl, {
+      attribution: Constants.Attribution,
+      maxZoom: Constants.LayerMaxZoomSize,
+      id: layerId,
+      accessToken: Constants.Token,
+    });
   }
 
   putMarker(latlng: [number, number], index?: number) {
@@ -90,6 +83,9 @@ export class LLMap {
     return marker;
   }
 
+  reverseMarker() {
+    this.markers.reverse();
+  }
 
   clearMarker(index: number) {
     this.llmap.removeLayer(this.markers[index]);
@@ -97,7 +93,7 @@ export class LLMap {
   }
 
   clearAllMarker() {
-    this.markers.forEach((marker) => {
+    this.markers.forEach(marker => {
       this.llmap.removeLayer(marker);
     });
     this.markers = [];
@@ -105,14 +101,13 @@ export class LLMap {
 
   putPolyline(latlngs: [number, number][], isFilled = false) {
     if (!this.polyline) {
-      this.polyline = L.polyline([latlngs],
-        {
-          color: '#f50057',
-          weight: 6,
-          opacity: 0.5,
-          fill: isFilled,
-          fillColor: '#f50057',
-        }).addTo(this.llmap);
+      this.polyline = L.polyline([latlngs], {
+        color: '#f50057',
+        weight: 6,
+        opacity: 0.5,
+        fill: isFilled,
+        fillColor: '#f50057',
+      }).addTo(this.llmap);
     }
 
     this.polyline.setLatLngs([latlngs]);
@@ -127,6 +122,7 @@ export class LLMap {
   }
 
   clearPolyline() {
+    // this.llmap.removeLayer(this.polyline);
     this.polyline = null;
   }
 

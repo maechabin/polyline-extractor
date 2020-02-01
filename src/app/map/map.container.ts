@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 
-import { LLMap } from '../domains/llmap/llmap';
+import { LLMap } from '../../domains/llmap/llmap';
 
 @Component({
   selector: 'app-map',
