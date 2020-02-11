@@ -22,9 +22,7 @@ export class ConsoleComponent implements OnInit, OnChanges {
     return JSON.stringify(this.latlngs);
   }
 
-  constructor(
-    private formBuilder: FormBuilder,
-  ) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.createForm();
@@ -34,7 +32,7 @@ export class ConsoleComponent implements OnInit, OnChanges {
     if (this.textForm) {
       try {
         this.textForm.get('latlngs').setValue(this.polyline);
-      } catch { }
+      } catch {}
     }
   }
 
@@ -63,6 +61,10 @@ export class ConsoleComponent implements OnInit, OnChanges {
 
   handleResetButtonClick() {
     this.resetButtonClick.emit();
+  }
+
+  handleReverseButtonClick() {
+    this.reverseButtonClick.emit();
   }
 
   handleFitBoundsButtonClick() {

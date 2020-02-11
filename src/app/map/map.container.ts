@@ -15,6 +15,7 @@ import { LLMap } from '../../domains/llmap/llmap';
         (undoButtonClick)="handleUndoButtonClick()"
         (connectButtonClick)="handleConnectButtonClick()"
         (resetButtonClick)="handleResetButtonClick()"
+        (reverseButtonClick)="handleReverseButtonClick()"
         (fitBoundsButtonClick)="handleFitBoundsButtonClick()"
       ></app-console>
     </div>
@@ -28,9 +29,7 @@ export class MapContainerComponent implements OnInit {
 
   latlngs: [number, number][] = [];
 
-  constructor(
-    private elementRef: ElementRef,
-  ) { }
+  constructor(private elementRef: ElementRef) {}
 
   ngOnInit() {
     this.el = this.elementRef.nativeElement;
@@ -93,8 +92,8 @@ export class MapContainerComponent implements OnInit {
     });
   }
 
-  private getMarkerIndex(latlng: { lat: number; lng: number; }) {
-    return this.map.markers.findIndex((marker) => {
+  private getMarkerIndex(latlng: { lat: number; lng: number }) {
+    return this.map.markers.findIndex(marker => {
       const markerLatlng = marker.getLatLng();
       return markerLatlng.lat === latlng.lat && markerLatlng.lng === latlng.lng;
     });
@@ -109,7 +108,7 @@ export class MapContainerComponent implements OnInit {
         const marker = this.map.putMarker(latlng);
         this.handleMarkerEvent(marker);
       });
-    } catch { }
+    } catch {}
   }
 
   handleIsFilledChange(isFilled: boolean) {
@@ -142,6 +141,12 @@ export class MapContainerComponent implements OnInit {
     this.map.putPolyline(this.latlngs, this.isFilled);
     this.map.clearPolyline();
     this.map.clearAllMarker();
+  }
+
+  /** todo: 不具合があるためまだボタンは実装していない */
+  handleReverseButtonClick() {
+    this.latlngs.reverse();
+    this.map.reverseMarker();
   }
 
   handleFitBoundsButtonClick() {
